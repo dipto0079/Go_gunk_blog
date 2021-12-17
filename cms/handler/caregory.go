@@ -14,9 +14,9 @@ type Category struct {
 	Errors      map[string]string
 }
 
-func (b *Category) Validate() error {
-	return validation.ValidateStruct(b,
-		validation.Field(&b.Title, validation.Required.Error("This Filed cannot be blank"), validation.Length(3, 0)),
+func (c *Category) Validate() error {
+	return validation.ValidateStruct(c,
+		validation.Field(&c.Title, validation.Required.Error("This Filed cannot be blank"), validation.Length(3, 0)),
 	)
 }
 
