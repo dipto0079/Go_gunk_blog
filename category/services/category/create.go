@@ -4,14 +4,14 @@ import (
 	"blog/category/storage"
 	tpc "blog/gunk/v1/category"
 	"context"
-	"log"
+	
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
 func (s *Svc) Create(ctx context.Context,req *tpc.CreateCategoryRequest) (*tpc.CreateCategoryResponse, error){
-	log.Printf("Request Category : %#v\n",req.GetCategory())
+	//log.Printf("Request Category : %#v\n",req.GetCategory())
 
 	category :=storage.Category{
 		Title: req.Category.Title,

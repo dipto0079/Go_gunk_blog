@@ -23,6 +23,7 @@ type CategoryServiceClient interface {
 	Update(ctx context.Context, in *UpdateCategoryRequest, opts ...grpc.CallOption) (*UpdateCategoryResponse, error)
 	Delete(ctx context.Context, in *DeleteCategoryRequest, opts ...grpc.CallOption) (*DeleteCategoryResponse, error)
 	Complete(ctx context.Context, in *CompleteCategoryRequest, opts ...grpc.CallOption) (*CompleteCategoryResponse, error)
+	GetAllData(ctx context.Context, in *GetAllDataCategoryRequest, opts ...grpc.CallOption) (*GetAllDataCategoryResponse, error)
 }
 
 type categoryServiceClient struct {
@@ -78,6 +79,15 @@ func (c *categoryServiceClient) Complete(ctx context.Context, in *CompleteCatego
 	return out, nil
 }
 
+func (c *categoryServiceClient) GetAllData(ctx context.Context, in *GetAllDataCategoryRequest, opts ...grpc.CallOption) (*GetAllDataCategoryResponse, error) {
+	out := new(GetAllDataCategoryResponse)
+	err := c.cc.Invoke(ctx, "/category.CategoryService/GetAllData", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CategoryServiceServer is the server API for CategoryService service.
 // All implementations must embed UnimplementedCategoryServiceServer
 // for forward compatibility
@@ -87,6 +97,7 @@ type CategoryServiceServer interface {
 	Update(context.Context, *UpdateCategoryRequest) (*UpdateCategoryResponse, error)
 	Delete(context.Context, *DeleteCategoryRequest) (*DeleteCategoryResponse, error)
 	Complete(context.Context, *CompleteCategoryRequest) (*CompleteCategoryResponse, error)
+	GetAllData(context.Context, *GetAllDataCategoryRequest) (*GetAllDataCategoryResponse, error)
 	mustEmbedUnimplementedCategoryServiceServer()
 }
 
@@ -108,6 +119,9 @@ func (UnimplementedCategoryServiceServer) Delete(context.Context, *DeleteCategor
 }
 func (UnimplementedCategoryServiceServer) Complete(context.Context, *CompleteCategoryRequest) (*CompleteCategoryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Complete not implemented")
+}
+func (UnimplementedCategoryServiceServer) GetAllData(context.Context, *GetAllDataCategoryRequest) (*GetAllDataCategoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllData not implemented")
 }
 func (UnimplementedCategoryServiceServer) mustEmbedUnimplementedCategoryServiceServer() {}
 
@@ -212,6 +226,24 @@ func _CategoryService_Complete_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CategoryService_GetAllData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllDataCategoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CategoryServiceServer).GetAllData(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/category.CategoryService/GetAllData",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CategoryServiceServer).GetAllData(ctx, req.(*GetAllDataCategoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CategoryService_ServiceDesc is the grpc.ServiceDesc for CategoryService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -238,6 +270,10 @@ var CategoryService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Complete",
 			Handler:    _CategoryService_Complete_Handler,
+		},
+		{
+			MethodName: "GetAllData",
+			Handler:    _CategoryService_GetAllData_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

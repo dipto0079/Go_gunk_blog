@@ -42,7 +42,6 @@ func main() {
 
 	cs := tc.NewCoreSve(store)
 
-
 	s := category.NewCategoryServer(cs)
 
 

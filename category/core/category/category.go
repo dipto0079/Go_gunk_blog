@@ -7,6 +7,7 @@ import (
 
 type categoryStore interface {
 	Create_sto(context.Context, storage.Category) (int64, error)
+	//get_all_Data(context.Context)(storage.Category, error)
 }
 
 type CoreSve struct{
@@ -24,7 +25,8 @@ func (cs CoreSve) Create_ser(ctx context.Context, t storage.Category) (int64, er
 	// return 0, nil
 }
 
-func (cs CoreSve) Get_ser(ctx context.Context, t storage.Category) (storage.Category, error) {
-	//return cs.store.Create_sto(ctx, t)
-	 return t, nil
-}
+// func (cs CoreSve) Get_AllData_ser(ctx context.Context) (storage.Category, error) {
+// 	//return cs.store.Create_sto(ctx, t)
+// 	//return cs.store.get_all_Data(ctx,storage.Category)
+// 	return cs.store.get_all_Data(context.Background())
+// }

@@ -40,10 +40,19 @@ type CompleteCategoryRequest struct {
 
 type CompleteCategoryResponse struct{}
 
+
+type GetAllDataCategoryRequest struct{}
+
+type GetAllDataCategoryResponse struct{
+	Category Category `pb:"1"`
+}
+
+
 type CategoryService interface {
 	Create(CreateCategoryRequest) CreateCategoryResponse
 	Get(GetCategoryRequest) GetCategoryResponse
 	Update(UpdateCategoryRequest) UpdateCategoryResponse
 	Delete(DeleteCategoryRequest) DeleteCategoryResponse
 	Complete(CompleteCategoryRequest) CompleteCategoryResponse
+	GetAllData(GetAllDataCategoryRequest) GetAllDataCategoryResponse
 }

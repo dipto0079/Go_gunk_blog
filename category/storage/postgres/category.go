@@ -25,7 +25,7 @@ func (s *Storage)Create_sto(ctx context.Context, t storage.Category) (int64, err
 	return id,nil
 }
 
-func (s *Storage) Get(ctx context.Context, id int64) (*storage.Category, error) {
+func (s *Storage) Get_sto(ctx context.Context, id int64) (*storage.Category, error) {
 	var c storage.Category
 
 	if err :=s.db.Get(&c,"SELECT * FROM categorys WHERE id=$1",id);err != nil{
@@ -60,4 +60,16 @@ func (s *Storage) Delete(ctx context.Context,id int64) error {
 		return err;
 	}
 	return nil
+}
+
+
+func (s *Storage)get_all_Data(ctx context.Context) (storage.Category, error){
+
+	var c storage.Category
+
+	if err :=s.db.Select(&c,"SELECT * FROM categorys");err != nil{
+
+		return c,err
+	}
+	return c,nil
 }

@@ -24,6 +24,13 @@ func TestCreateCategory(t *testing.T) {
 			},
 			want: 1,
 		},
+		{
+			name: "CREATE_BLOG_SUCCESS",
+			in: storage.Category{
+				Title:       "This is title 1",
+			},
+			want: 2,
+		},
 	}
 	for _, tt := range tests {
 		tt := tt
@@ -42,34 +49,74 @@ func TestCreateCategory(t *testing.T) {
 }
 
 
-func TestGetCategory(t *testing.T) {
+// func TestGetCategory(t *testing.T) {
+// 	s := newTestStorage(t)
+// 	tests := []struct {
+// 		name    string
+// 		in      int64
+// 		want    *storage.Category
+// 		wantErr bool
+// 	}{
+// 		{
+// 			name: "GET_Category_SUCCESS",
+// 			in: 1,
+// 			want: &storage.Category{
+// 				ID:          1,
+// 				Title:       "This is title",
+// 			},
+// 		},
+// 		{
+// 			name: "FAILED_Category_DOES_NOT_EXIST",
+// 			in: 100,
+// 			wantErr: true,
+// 		},
+// 	}
+// 	for _, tt := range tests {
+// 		tt := tt
+// 		t.Run(tt.name, func(t *testing.T) {
+
+// 			category, err := s.Get_sto(context.Background(), tt.in)
+// 			log.Printf("%#v", category)
+// 			if (err != nil) != tt.wantErr {
+// 				t.Errorf("Storage.Get() error = %v, wantErr %v", err, tt.wantErr)
+// 				return
+// 			}
+
+// 			if !cmp.Equal(category, tt.want) {
+// 				t.Errorf("Diff: got -, want += %v", cmp.Diff(category, tt.want))
+// 			}
+// 		})
+// 	}
+// }
+
+
+
+func TestAllDataCategory(t *testing.T) {
 	s := newTestStorage(t)
 	tests := []struct {
 		name    string
-		in      int64
+		in      storage.Category
 		want    *storage.Category
 		wantErr bool
 	}{
 		{
-			name: "GET_Category_SUCCESS",
-			in: 1,
+			name: "=======GET_All_data_SUCCESS========",
+			in: storage.Category{
+				ID: 1,
+				Title: "This is title",
+			},
 			want: &storage.Category{
 				ID:          1,
 				Title:       "This is title",
 			},
 		},
-		{
-			name: "FAILED_Category_DOES_NOT_EXIST",
-			in: 100,
-			wantErr: true,
-		},
+		
 	}
 	for _, tt := range tests {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
-
-			category, err := s.Get(context.Background(), tt.in)
-			log.Printf("%#v", category)
+			category, err := s.get_all_Data(context.Background(),)
+			log.Printf("======???========== %#v", category)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Storage.Get() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -82,69 +129,69 @@ func TestGetCategory(t *testing.T) {
 	}
 }
 
-func TestUpdateCategory(t *testing.T) {
-	s := newTestStorage(t)
-	tests := []struct {
-		name    string
-		in      storage.Category
-		want    *storage.Category
-		wantErr bool
-	}{
-		{
-			name: "UPDATE_Category_SUCCESS",
-			in: storage.Category{
-				ID: 1,
-				Title:       "This is title Update",
-			},
-			want: &storage.Category{
-				ID: 1,
-				Title:       "This is title Update",
-			},
-		},
-	}
-	for _, tt := range tests {
-		tt := tt
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := s.Update(context.Background(), tt.in)
-			//log.Printf("%#v", got)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("Storage.Update() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !cmp.Equal(got, tt.want) {
-				t.Errorf("Diff: got -, want += %v", cmp.Diff(got, tt.want))
-			}
-		})
-	}
-}
+// func TestUpdateCategory(t *testing.T) {
+// 	s := newTestStorage(t)
+// 	tests := []struct {
+// 		name    string
+// 		in      storage.Category
+// 		want    *storage.Category
+// 		wantErr bool
+// 	}{
+// 		{
+// 			name: "UPDATE_Category_SUCCESS",
+// 			in: storage.Category{
+// 				ID: 1,
+// 				Title:       "This is title Update",
+// 			},
+// 			want: &storage.Category{
+// 				ID: 1,
+// 				Title:       "This is title Update",
+// 			},
+// 		},
+// 	}
+// 	for _, tt := range tests {
+// 		tt := tt
+// 		t.Run(tt.name, func(t *testing.T) {
+// 			got, err := s.Update(context.Background(), tt.in)
+// 			//log.Printf("%#v", got)
+// 			if (err != nil) != tt.wantErr {
+// 				t.Errorf("Storage.Update() error = %v, wantErr %v", err, tt.wantErr)
+// 				return
+// 			}
+// 			if !cmp.Equal(got, tt.want) {
+// 				t.Errorf("Diff: got -, want += %v", cmp.Diff(got, tt.want))
+// 			}
+// 		})
+// 	}
+// }
 
 
-func TestDeleteCategory(t *testing.T) {
-	s := newTestStorage(t)
-	tests := []struct {
-		name    string
-		in      int64
-		wantErr bool
-	}{
-		{
-			name: "DELETE_Category_SUCCESS",
-			in: 1,
-		},
-		{
-			name: "FAILED_TO_DELETE_Category_DOES_NOT_EXIST",
-			in: 100,
-			wantErr: true,
-		},
-	}
-	for _, tt := range tests {
-		tt := tt
-		t.Run(tt.name, func(t *testing.T) {
-			err := s.Delete(context.Background(), tt.in)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("Storage.Delete() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-		})
-	}
-}
+// func TestDeleteCategory(t *testing.T) {
+// 	s := newTestStorage(t)
+// 	tests := []struct {
+// 		name    string
+// 		in      int64
+// 		wantErr bool
+// 	}{
+// 		{
+// 			name: "DELETE_Category_SUCCESS",
+// 			in: 1,
+// 		},
+// 		{
+// 			name: "FAILED_TO_DELETE_Category_DOES_NOT_EXIST",
+// 			in: 100,
+// 			wantErr: true,
+// 		},
+// 	}
+// 	for _, tt := range tests {
+// 		tt := tt
+// 		t.Run(tt.name, func(t *testing.T) {
+// 			err := s.Delete(context.Background(), tt.in)
+// 			if (err != nil) != tt.wantErr {
+// 				t.Errorf("Storage.Delete() error = %v, wantErr %v", err, tt.wantErr)
+// 				return
+// 			}
+// 		})
+// 	}
+// }
 

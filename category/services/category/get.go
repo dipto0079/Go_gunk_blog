@@ -2,26 +2,28 @@
 
 
 // import (
-// 	"blog/category/storage"
+// 	//"blog/category/storage"
 // 	tpc "blog/gunk/v1/category"
 // 	"context"
 // 	//"log"
 
-// //	"google.golang.org/grpc/codes"
-// //	"google.golang.org/grpc/status"
+// 	"google.golang.org/grpc/codes"
+// 	"google.golang.org/grpc/status"
 // )
 
-// func Get(ctx context.Context,req *tpc.GetCategoryRequest) (*tpc.GetCategoryResponse, error){
-// 	category :=storage.Category{}
-
-
+// func(s *Svc) GetAllData(ctx context.Context,) (*tpc.GetAllDataCategoryResponse, error){
 	
-// 	id,err:=s.core.Get_ser(context.Background(),category)
+// 	 //category := storage.Category{}
+	
+// 	id,err:=s.core.Get_AllData_ser(context.Background())
 // 	if err != nil {
 // 		return nil, status.Errorf(codes.Internal,"failed to create category: %s",err)
 // 	}
-// 	return &tpc.CreateCategoryResponse{
-// 		ID: id,
+// 	return &tpc.GetAllDataCategoryResponse{
+// 		Category: &tpc.Category{
+// 			ID: id.ID,
+// 			Title: id.Title,
+// 		},
 // 	},nil
 
 // }
