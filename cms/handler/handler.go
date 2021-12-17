@@ -30,7 +30,7 @@ func New(decoder *schema.Decoder, sess *sessions.CookieStore ,tc tpb.CategorySer
 
 	h.parseTemplates()
 	r := mux.NewRouter()
-
+	r.HandleFunc("/", h.Home)
 	r.HandleFunc("/category/create", h.CategoryCreate)
 	r.HandleFunc("/category/store", h.CategoryStore)
 
@@ -50,7 +50,9 @@ func New(decoder *schema.Decoder, sess *sessions.CookieStore ,tc tpb.CategorySer
 func (h *Handler) parseTemplates() {
 	h.templates = template.Must(template.ParseFiles(
 		"cms/assets/templates/404.html",
+		"cms/assets/templates/index.html",
 		"cms/assets/templates/create_Category.html",
+		"cms/assets/templates/list-category.html",
 	))
 }
 

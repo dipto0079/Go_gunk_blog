@@ -23,3 +23,8 @@ func (cs CoreSve) Create_ser(ctx context.Context, t storage.Category) (int64, er
 	return cs.store.Create_sto(ctx, t)
 	// return 0, nil
 }
+
+func (cs CoreSve) Get_ser(ctx context.Context, t storage.Category) (storage.Category, error) {
+	//return cs.store.Create_sto(ctx, t)
+	 return t, nil
+}

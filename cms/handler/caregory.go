@@ -82,7 +82,7 @@ func (h *Handler) CategoryStore(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.Redirect(rw, r, "/category/create", http.StatusTemporaryRedirect)
+	http.Redirect(rw, r, "/", http.StatusTemporaryRedirect)
 }
 
 // // Show
