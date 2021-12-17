@@ -26,7 +26,7 @@ func main() {
 			strings.NewReplacer(".", "_"),
 		),
 	)
-	config.SetConfigFile("blog/env/config")
+	config.SetConfigFile("category/env/config")
 	config.SetConfigType("ini")
 	config.AutomaticEnv()
 	if err := config.ReadInConfig(); err != nil {
