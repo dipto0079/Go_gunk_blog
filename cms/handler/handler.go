@@ -56,27 +56,3 @@ func (h *Handler) parseTemplates() {
 	))
 }
 
-// func (h *Handler) authMiddleware(next http.Handler) http.Handler {
-// 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
-// 		session, _ := h.sess.Get(r, "library")
-// 		if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
-// 			http.Redirect(rw, r, "/login", http.StatusTemporaryRedirect)
-// 			return
-// 		}
-// 		next.ServeHTTP(rw, r)
-// 	})
-// // }
-// func (h *Handler) loginMiddleware(next http.Handler) http.Handler {
-// 	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
-// 		session, err := h.sess.Get(r, sessionsName)
-// 		if err != nil {
-// 			log.Fatal(err)
-// 		}
-// 		authuser := session.Values["authenticated"]
-// 		if authuser != nil {
-// 			http.Redirect(rw, r, "/", http.StatusTemporaryRedirect)
-// 		} else {
-// 			next.ServeHTTP(rw, r)
-// 		}
-// 	})
-// }
