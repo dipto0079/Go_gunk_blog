@@ -54,7 +54,7 @@ func (h *Handler) parseTemplates() {
 		"cms/assets/templates/404.html",
 		"cms/assets/templates/index.html",
 		"cms/assets/templates/create_Category.html",
-		"cms/assets/templates/list-category.html",
+		//"cms/assets/templates/list-category.html",
 		"cms/assets/templates/edit_Category.html",
 	))
 }

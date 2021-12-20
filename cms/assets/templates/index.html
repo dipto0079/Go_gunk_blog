@@ -61,11 +61,7 @@
                     <td>
                         <a href="/category/{{.ID}}/edit" class="btn btn-secondary">Edit</a>
                         <a href="/category/{{.ID}}/delete" class="btn btn-warning">Delete</a>
-                        {{if .IsComplete}}
-                        <a href="/category/{{.ID}}/deactivate" class="btn btn-danger">Deactivate</a>
-                        {{else}}
-                        <a href="/category/{{.ID}}/active" class="btn btn-success">Active</a>
-                        {{end}}
+                       
                     </td>
                 </tr>
                 {{end}}
