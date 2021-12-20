@@ -53,3 +53,38 @@ func (s *Storage) GetBlog(ctx context.Context, id int64) (storage.Blog, error) {
 	return b, nil
 }
 
+
+const UpdateBlog = `
+	UPDATE blogs 
+	SET
+		cat_id =: cat_id,
+		title =:title,
+		description =:description,
+		image =:image
+		
+	WHERE
+	id =:id
+	RETURNING *;
+`
+
+func (s *Storage) UpdateBlog(ctx context.Context, t storage.Blog) error {
+	stmt, err := s.db.PrepareNamed(UpdateBlog)
+	if err != nil {
+		return err
+	}
+	var blog storage.Blog
+	if err := stmt.Get(&blog, t); err != nil {
+		return err
+	}
+	return  nil
+}
+
+func (s *Storage) BlogDelete(ctx context.Context, id int64) error {
+	var b storage.Blog
+	if err := s.db.Get(&b, "DELETE FROM blogs WHERE id=$1 RETURNING * ", id); err != nil {
+		return err
+	}
+	return nil
+}
+
+
