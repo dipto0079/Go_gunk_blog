@@ -31,6 +31,50 @@
             </div>
         </div>
     </div>
+    <div class="row">
+
+        <div class="col-12">
+            <table id="myTable" class="display" style=" width: 100%; ">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th>Action</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {{range .Category}}
+
+                <tr id="myTR">
+                    <td>{{.Title}}</td>
+                    
+                    {{if .IsComplete}}
+                    <td>
+                        <button type="button" class="btn btn-success">Active</button>
+                    </td>
+                    {{else}}
+                    <td>
+                        <button type="button" class="btn btn-danger">Deactivate</button>
+                    </td>
+                    {{end}}
+                    <td>
+                        <a href="/category/{{.ID}}/edit" class="btn btn-secondary">Edit</a>
+                        <a href="/category/{{.ID}}/delete" class="btn btn-warning">Delete</a>
+                        {{if .IsComplete}}
+                        <a href="/category/{{.ID}}/deactivate" class="btn btn-danger">Deactivate</a>
+                        {{else}}
+                        <a href="/category/{{.ID}}/active" class="btn btn-success">Active</a>
+                        {{end}}
+                    </td>
+                </tr>
+                {{end}}
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
 </div>
 
 

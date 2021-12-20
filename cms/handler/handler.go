@@ -32,6 +32,11 @@ func New(decoder *schema.Decoder, sess *sessions.CookieStore, tc tpb.CategorySer
 	r.HandleFunc("/", h.Home)
 	r.HandleFunc("/category/create", h.CategoryCreate)
 	r.HandleFunc("/category/store", h.CategoryStore)
+	r.HandleFunc("/category/{id:[0-9]+}/delete", h.Delete)	
+	 r.HandleFunc("/category/{id:[0-9]+}/edit", h.Edit)
+	// r.HandleFunc("/Category/{id:[0-9]+}/update", h.categoryUpdate)
+	
+
 
 	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets"))))
 
@@ -50,5 +55,6 @@ func (h *Handler) parseTemplates() {
 		"cms/assets/templates/index.html",
 		"cms/assets/templates/create_Category.html",
 		"cms/assets/templates/list-category.html",
+		"cms/assets/templates/edit_Category.html",
 	))
 }

@@ -25,13 +25,13 @@ func (s *Storage) Create_sto(ctx context.Context, t storage.Category) (int64, er
 	return id, nil
 }
 
-func (s *Storage) Get_sto(ctx context.Context, id int64) (*storage.Category, error) {
+func (s *Storage) Get_sto(ctx context.Context, id int64) (storage.Category, error) {
 	var c storage.Category
 
 	if err := s.db.Get(&c, "SELECT * FROM categorys WHERE id=$1", id); err != nil {
-		return nil, err
+		return c, err
 	}
-	return &c, nil
+	return c, nil
 }
 
 const updateCategory = `
@@ -44,15 +44,12 @@ const updateCategory = `
 	RETURNING *;
 `
 
-func (s *Storage) Update(ctx context.Context, t storage.Category) (*storage.Category, error) {
-	stmt, err := s.db.PrepareNamed(updateCategory)
+func (s *Storage) Update(ctx context.Context, t storage.Category) error {
+	_, err := s.db.PrepareNamed(updateCategory)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	if err := stmt.Get(&t, t); err != nil {
-		return nil, err
-	}
-	return &t, nil
+	return  nil
 }
 
 func (s *Storage) Delete(ctx context.Context, id int64) error {
@@ -67,7 +64,7 @@ func (s *Storage) Get_all_Data(ctx context.Context) ([]storage.Category, error) 
 
 	var c []storage.Category
 
-	if err := s.db.Select(&c, "SELECT * FROM categorys"); err != nil {
+	if err := s.db.Select(&c, "SELECT * FROM categorys order by id desc"); err != nil {
 		return c, err
 	}
 	return c, nil

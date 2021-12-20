@@ -152,15 +152,13 @@ func TestUpdateCategory(t *testing.T) {
 	for _, tt := range tests {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := s.Update(context.Background(), tt.in)
+			err := s.Update(context.Background(), tt.in)
 			//log.Printf("%#v", got)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Storage.Update() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !cmp.Equal(got, tt.want) {
-				t.Errorf("Diff: got -, want += %v", cmp.Diff(got, tt.want))
-			}
+			
 		})
 	}
 }
