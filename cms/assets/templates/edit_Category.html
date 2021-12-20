@@ -11,10 +11,10 @@
 <div class="container ">
     <div class="row">
         <div class="col-sm-6">
-            <form method="post" action="/category/store">
+            <form method="post" action="/category/{{.ID}}/update">
                 <div class="form-group">
                     <label for="exampleInputEmail1">Category Name</label>
-                    <input class="form-control" value="{{.ID}}" name="ID" type="hidden" placeholder="Enter Category" />
+                    
                     <input class="form-control" value="{{.Title}}" name="Title" type="text" placeholder="Enter Category" />
                     <small class="text-danger">{{.Errors.Title}}</small>
                 </div>

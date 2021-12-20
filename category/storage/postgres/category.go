@@ -45,8 +45,12 @@ const updateCategory = `
 `
 
 func (s *Storage) Update(ctx context.Context, t storage.Category) error {
-	_, err := s.db.PrepareNamed(updateCategory)
+	stmt, err := s.db.PrepareNamed(updateCategory)
 	if err != nil {
+		return err
+	}
+	var cat storage.Category
+	if err := stmt.Get(&cat, t); err != nil {
 		return err
 	}
 	return  nil

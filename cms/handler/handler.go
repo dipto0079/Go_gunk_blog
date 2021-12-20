@@ -34,7 +34,7 @@ func New(decoder *schema.Decoder, sess *sessions.CookieStore, tc tpb.CategorySer
 	r.HandleFunc("/category/store", h.CategoryStore)
 	r.HandleFunc("/category/{id:[0-9]+}/delete", h.Delete)	
 	 r.HandleFunc("/category/{id:[0-9]+}/edit", h.Edit)
-	// r.HandleFunc("/Category/{id:[0-9]+}/update", h.categoryUpdate)
+	 r.HandleFunc("/category/{id:[0-9]+}/update", h.Update)
 	
 
 

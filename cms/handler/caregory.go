@@ -152,7 +152,7 @@ func (h *Handler) editBookData(rw http.ResponseWriter, id int64, title string, e
 }
 
 //Update
-func (h *Handler) bookUpdate(rw http.ResponseWriter, r *http.Request) {
+func (h *Handler) Update(rw http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
 	Id := vars["id"]
