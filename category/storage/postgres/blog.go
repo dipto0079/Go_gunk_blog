@@ -7,11 +7,17 @@ import (
 
 
 const insertBlog = `
-	INSERT INTO blog(
-		title
+	INSERT INTO blogs(
+		cat_id,
+		title,
+		description,
+		image
 
 	)VALUES(
-		:title
+		:cat_id,
+		:title,
+		:description,
+		:image
 	)RETURNING id;
 `
 
@@ -26,3 +32,24 @@ func (s *Storage) Create(ctx context.Context, t storage.Blog) (int64, error) {
 	}
 	return id, nil
 }
+
+func (s *Storage) ListBlog(ctx context.Context) ([]storage.Blog, error) {
+
+	var b []storage.Blog
+
+	if err := s.db.Select(&b, "SELECT * FROM blogs order by id desc"); err != nil {
+		return b, err
+	}
+	return b, nil
+}
+
+
+func (s *Storage) GetBlog(ctx context.Context, id int64) (storage.Blog, error) {
+	var b storage.Blog
+
+	if err := s.db.Get(&b, "SELECT * FROM blogs WHERE id=$1", id); err != nil {
+		return b, err
+	}
+	return b, nil
+}
+

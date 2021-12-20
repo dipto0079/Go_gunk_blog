@@ -10,8 +10,6 @@ import (
 )
 
 func (s *Svc) Create(ctx context.Context,req *tpb.CreateBlogRequest) (*tpb.CreateBlogResponse, error){
-	//log.Printf("Request Category : %#v\n",req.GetCategory())
-
 	category :=storage.Blog{
 		Cat_ID: req.Blog.Cat_ID,
 		Title: req.Blog.Title,

@@ -8,8 +8,8 @@ import (
 
 type blogCoreStore interface {
 	Create(context.Context, storage.Blog) (int64, error)
-	// Get_AllData_ser(context.Context) ([]storage.Category, error)
-	// Get_single_ser(context.Context,int64) (storage.Category, error)
+	ListBlog(context.Context) ([]storage.Blog, error)
+	GetBlog(context.Context,int64) (storage.Blog, error)
 	// Delete(context.Context, int64)  error
 	// Update(context.Context, storage.Category) error
 }
