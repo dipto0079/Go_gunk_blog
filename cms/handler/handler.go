@@ -1,15 +1,14 @@
 package handler
 
 import (
-	
 	"net/http"
 	"text/template"
+
+	tpb "blog/gunk/v1/category"
 
 	"github.com/gorilla/mux"
 	"github.com/gorilla/schema"
 	"github.com/gorilla/sessions"
-	tpb "blog/gunk/v1/category"
-	
 )
 
 const sessionsName = "cms-session"
@@ -18,14 +17,14 @@ type Handler struct {
 	templates *template.Template
 	decoder   *schema.Decoder
 	sess      *sessions.CookieStore
-	tc       tpb.CategoryServiceClient
+	tc        tpb.CategoryServiceClient
 }
 
-func New(decoder *schema.Decoder, sess *sessions.CookieStore ,tc tpb.CategoryServiceClient) *mux.Router {
+func New(decoder *schema.Decoder, sess *sessions.CookieStore, tc tpb.CategoryServiceClient) *mux.Router {
 	h := &Handler{
 		decoder: decoder,
 		sess:    sess,
-		tc:tc,
+		tc:      tc,
 	}
 
 	h.parseTemplates()
@@ -33,8 +32,6 @@ func New(decoder *schema.Decoder, sess *sessions.CookieStore ,tc tpb.CategorySer
 	r.HandleFunc("/", h.Home)
 	r.HandleFunc("/category/create", h.CategoryCreate)
 	r.HandleFunc("/category/store", h.CategoryStore)
-
-	
 
 	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets"))))
 
@@ -55,4 +52,3 @@ func (h *Handler) parseTemplates() {
 		"cms/assets/templates/list-category.html",
 	))
 }
-

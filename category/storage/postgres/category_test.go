@@ -115,7 +115,7 @@ func TestAllDataCategory(t *testing.T) {
 	for _, tt := range tests {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
-			category, err := s.get_all_Data(context.Background(),)
+			category, err := s.Get_all_Data(context.Background(),)
 			log.Printf("======???========== %#v", category)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Storage.Get() error = %v, wantErr %v", err, tt.wantErr)
@@ -129,41 +129,41 @@ func TestAllDataCategory(t *testing.T) {
 	}
 }
 
-// func TestUpdateCategory(t *testing.T) {
-// 	s := newTestStorage(t)
-// 	tests := []struct {
-// 		name    string
-// 		in      storage.Category
-// 		want    *storage.Category
-// 		wantErr bool
-// 	}{
-// 		{
-// 			name: "UPDATE_Category_SUCCESS",
-// 			in: storage.Category{
-// 				ID: 1,
-// 				Title:       "This is title Update",
-// 			},
-// 			want: &storage.Category{
-// 				ID: 1,
-// 				Title:       "This is title Update",
-// 			},
-// 		},
-// 	}
-// 	for _, tt := range tests {
-// 		tt := tt
-// 		t.Run(tt.name, func(t *testing.T) {
-// 			got, err := s.Update(context.Background(), tt.in)
-// 			//log.Printf("%#v", got)
-// 			if (err != nil) != tt.wantErr {
-// 				t.Errorf("Storage.Update() error = %v, wantErr %v", err, tt.wantErr)
-// 				return
-// 			}
-// 			if !cmp.Equal(got, tt.want) {
-// 				t.Errorf("Diff: got -, want += %v", cmp.Diff(got, tt.want))
-// 			}
-// 		})
-// 	}
-// }
+func TestUpdateCategory(t *testing.T) {
+	s := newTestStorage(t)
+	tests := []struct {
+		name    string
+		in      storage.Category
+		want    *storage.Category
+		wantErr bool
+	}{
+		{
+			name: "UPDATE_Category_SUCCESS",
+			in: storage.Category{
+				ID: 1,
+				Title:       "This is title Update",
+			},
+			want: &storage.Category{
+				ID: 1,
+				Title:       "This is title Update",
+			},
+		},
+	}
+	for _, tt := range tests {
+		tt := tt
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := s.Update(context.Background(), tt.in)
+			//log.Printf("%#v", got)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Storage.Update() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if !cmp.Equal(got, tt.want) {
+				t.Errorf("Diff: got -, want += %v", cmp.Diff(got, tt.want))
+			}
+		})
+	}
+}
 
 
 // func TestDeleteCategory(t *testing.T) {

@@ -1,20 +1,16 @@
 package category
 
 import (
-	"context"
 	"blog/category/storage"
+	"blog/category/storage/postgres"
+	"context"
 )
 
-type categoryStore interface {
-	Create_sto(context.Context, storage.Category) (int64, error)
-	//get_all_Data(context.Context)(storage.Category, error)
+type CoreSve struct {
+	store *postgres.Storage
 }
 
-type CoreSve struct{
-	store categoryStore
-}
-
-func NewCoreSve(b categoryStore) *CoreSve {
+func NewCoreSve(b *postgres.Storage) *CoreSve {
 	return &CoreSve{
 		store: b,
 	}
@@ -22,11 +18,8 @@ func NewCoreSve(b categoryStore) *CoreSve {
 
 func (cs CoreSve) Create_ser(ctx context.Context, t storage.Category) (int64, error) {
 	return cs.store.Create_sto(ctx, t)
-	// return 0, nil
 }
 
-// func (cs CoreSve) Get_AllData_ser(ctx context.Context) (storage.Category, error) {
-// 	//return cs.store.Create_sto(ctx, t)
-// 	//return cs.store.get_all_Data(ctx,storage.Category)
-// 	return cs.store.get_all_Data(context.Background())
-// }
+func (cs CoreSve) Get_AllData_ser(ctx context.Context) ([]storage.Category, error) {
+	return cs.store.Get_all_Data(ctx)
+}
