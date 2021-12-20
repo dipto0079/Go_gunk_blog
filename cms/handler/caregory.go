@@ -2,14 +2,17 @@ package handler
 
 import (
 	"net/http"
+	"strconv"
 	//	"strconv"
 
-	validation "github.com/go-ozzo/ozzo-validation"
 	tpb "blog/gunk/v1/category"
+
+	validation "github.com/go-ozzo/ozzo-validation"
+	"github.com/gorilla/mux"
 )
 
 type Category struct {
-	ID          int
+	ID          int64
 	Title       string
 	Errors      map[string]string
 }
@@ -85,157 +88,122 @@ func (h *Handler) CategoryStore(rw http.ResponseWriter, r *http.Request) {
 	http.Redirect(rw, r, "/", http.StatusTemporaryRedirect)
 }
 
-// // Show
-// func (h *Handler) bookList(rw http.ResponseWriter, r *http.Request) {
 
-// 	queryFilter := r.URL.Query().Get("query")
+//Delete
+func (h *Handler) Delete(rw http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	Id := vars["id"]
 
-// 	books := []BookData{}
+	id, erre := strconv.ParseInt(Id, 10, 64)
 
-// 	nameQuery := `SELECT * FROM books WHERE name ILIKE '%%' || $1 || '%%' order by id desc`
-// 	if err := h.db.Select(&books, nameQuery, queryFilter); err != nil {
-// 		http.Error(rw, err.Error(), http.StatusInternalServerError)
-// 		return
-// 	}
+	if erre != nil {
+		http.Error(rw, erre.Error(), http.StatusInternalServerError)
+		return
+	}
 
-// 	for key, value := range books {
-// 		const getCat = `SELECT name FROM category WHERE id=$1`
-// 		var category FormData
-// 		h.db.Get(&category, getCat, value.Cat_id)
-// 		books[key].Cat_Name = category.Name
-// 	}
+	_, err := h.tc.Delete(r.Context(), &tpb.DeleteCategoryRequest{
+		ID: id,
+	})
+	if err != nil {
+		http.Error(rw, "Invalid URL", http.StatusInternalServerError)
+		return
+	}
+	http.Redirect(rw, r, "/", http.StatusTemporaryRedirect)
+}
 
-// 	categorya := []FormData{}
 
-// 	namezQuery := `SELECT * FROM category  order by id desc`
+//Edit
+func (h *Handler) Edit(rw http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	Id := vars["id"]
 
-// 	if err := h.db.Select(&categorya, namezQuery); err != nil {
-// 		http.Error(rw, err.Error(), http.StatusInternalServerError)
-// 		return
-// 	}
+	id, erre := strconv.ParseInt(Id, 10, 64)
 
-// 	lt := BookListData{
-// 		Book:        books,
-// 		QueryFilter: queryFilter,
-// 		Category:    categorya,
-// 	}
+	if erre != nil {
+		http.Error(rw, erre.Error(), http.StatusInternalServerError)
+		return
+	}
 
-// 	if err := h.templates.ExecuteTemplate(rw, "list-book.html", lt); err != nil {
-// 		http.Error(rw, err.Error(), http.StatusInternalServerError)
-// 		return
-// 	}
+	res, err := h.tc.Get(r.Context(), &tpb.GetCategoryRequest{
+		ID: id,
+	})
+	if err != nil {
+		http.Error(rw, "Invalid URL", http.StatusInternalServerError)
+		return
+	}
 
-// }
+	errs := map[string]string{}
+	h.editBookData(rw, res.Category.ID,res.Category.Title, errs)
+	return
+}
 
-// //Edit
-// func (h *Handler) bookEdit(rw http.ResponseWriter, r *http.Request) {
-// 	vars := mux.Vars(r)
-// 	Id := vars["id"]
+func (h *Handler) editBookData(rw http.ResponseWriter, id int64, title string, errs map[string]string) {
 
-// 	if Id == "" {
-// 		http.Error(rw, "Invalid URL", http.StatusInternalServerError)
-// 		return
-// 	}
+	
+	form := Category{
+		ID:     id,
+		Title:  title,
+		Errors: errs,
+	}
+	if err := h.templates.ExecuteTemplate(rw, "edit_Category.html", form); err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
 
-// 	const getBook = `SELECT * FROM books WHERE id=$1`
-// 	var book BookData
-// 	h.db.Get(&book, getBook, Id)
+//Update
+func (h *Handler) Update(rw http.ResponseWriter, r *http.Request) {
 
-// 	errs := map[string]string{}
-// 	h.editBookData(rw, book.ID, book.Name, book.Cat_id, errs)
-// 	return
-// }
+	vars := mux.Vars(r)
+	Id := vars["id"]
 
-// func (h *Handler) editBookData(rw http.ResponseWriter, id int, name string, cat_id int, errs map[string]string) {
-// 	category := []FormData{}
-// 	h.db.Select(&category, "SELECT * FROM category")
-// 	form := BookData{
-// 		ID:       id,
-// 		Name:     name,
-// 		Cat_id:   cat_id,
-// 		Errors:   errs,
-// 		Category: category,
-// 	}
-// 	if err := h.templates.ExecuteTemplate(rw, "edit-book.html", form); err != nil {
-// 		http.Error(rw, err.Error(), http.StatusInternalServerError)
-// 		return
-// 	}
-// }
+	if err := r.ParseForm(); err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
-// //Update
-// func (h *Handler) bookUpdate(rw http.ResponseWriter, r *http.Request) {
-// 	categories := []FormData{}
-// 	h.db.Select(&categories, "SELECT * FROM categories")
+	id, erre := strconv.ParseInt(Id, 10, 64)
 
-// 	vars := mux.Vars(r)
-// 	Id := vars["id"]
+	if erre != nil {
+		http.Error(rw, erre.Error(), http.StatusInternalServerError)
+		return
+	}
 
-// 	if err := r.ParseForm(); err != nil {
-// 		http.Error(rw, err.Error(), http.StatusInternalServerError)
-// 		return
-// 	}
+	var category Category
+	if err := h.decoder.Decode(&category, r.PostForm); err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	
 
-// 	var book BookData
-// 	if err := h.decoder.Decode(&book, r.PostForm); err != nil {
-// 		http.Error(rw, err.Error(), http.StatusInternalServerError)
-// 		return
-// 	}
-// 	id, err := strconv.Atoi(Id)
-// 	if err != nil {
-// 		http.Error(rw, err.Error(), http.StatusInternalServerError)
-// 		return
-// 	}
+	if err := category.Validate(); err != nil {
+		valError, ok := err.(validation.Errors)
+		if ok {
+			vErrs := make(map[string]string)
+			for key, value := range valError {
+				vErrs[key] = value.Error()
+			}
+			h.editBookData(rw, id, category.Title, vErrs)
+			return
+		}
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
-// 	if err := book.Validate(); err != nil {
-// 		valError, ok := err.(validation.Errors)
-// 		if ok {
-// 			vErrs := make(map[string]string)
-// 			for key, value := range valError {
-// 				vErrs[key] = value.Error()
-// 			}
-// 			h.editBookData(rw, id, book.Name, book.Cat_id, vErrs)
-// 			return
-// 		}
-// 		http.Error(rw, err.Error(), http.StatusInternalServerError)
-// 		return
-// 	}
+	_, err := h.tc.Update(r.Context(), &tpb.UpdateCategoryRequest{
+		Category: &tpb.Category{
+			ID: id,
+			Title: category.Title,
+		},
+	})
+	if err != nil {
+		http.Error(rw, "Invalid URL", http.StatusInternalServerError)
+		return
+	}
 
-// 	const getBook = `SELECT * FROM books WHERE id=$1`
-// 	var books BookData
-// 	h.db.Get(&books, getBook, Id)
+	http.Redirect(rw, r, "/", http.StatusTemporaryRedirect)
+}
 
-// 	//fmt.Println(books)
-
-// 	if books.ID == 0 {
-// 		http.Error(rw, "Invalid URL", http.StatusInternalServerError)
-// 		return
-// 	}
-
-// 	const updateStatusCategory = `UPDATE books SET name=$1, cat_id=$2,status=$3 WHERE id=$4`
-// 	res := h.db.MustExec(updateStatusCategory, book.Name, book.Cat_id, true, Id)
-
-// 	if ok, err := res.RowsAffected(); err != nil || ok == 0 {
-// 		http.Error(rw, err.Error(), http.StatusInternalServerError)
-// 		return
-// 	}
-
-// 	http.Redirect(rw, r, "/Book/List", http.StatusTemporaryRedirect)
-// }
-
-// //Delete
-// func (h *Handler) bookdelete(rw http.ResponseWriter, r *http.Request) {
-// 	vars := mux.Vars(r)
-// 	Id := vars["id"]
-
-// 	const deleteCategory = `DELETE FROM books WHERE id=$1`
-// 	res := h.db.MustExec(deleteCategory, Id)
-
-// 	if ok, err := res.RowsAffected(); err != nil || ok == 0 {
-// 		http.Error(rw, err.Error(), http.StatusInternalServerError)
-// 		return
-// 	}
-// 	http.Redirect(rw, r, "/Book/List", http.StatusTemporaryRedirect)
-// }
 
 // func (h *Handler) bookActive(rw http.ResponseWriter, r *http.Request) {
 // 	vars := mux.Vars(r)
@@ -266,3 +234,4 @@ func (h *Handler) CategoryStore(rw http.ResponseWriter, r *http.Request) {
 
 // 	http.Redirect(rw, r, "/Book/List", http.StatusTemporaryRedirect)
 // }
+

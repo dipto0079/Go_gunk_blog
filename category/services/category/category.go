@@ -9,7 +9,9 @@ import (
 type categoryCoreStore interface {
 	Create_ser(context.Context, storage.Category) (int64, error)
 	Get_AllData_ser(context.Context) ([]storage.Category, error)
-	// Get_single_ser(context.Context,int16) (*storage.Category, error)
+	Get_single_ser(context.Context,int64) (storage.Category, error)
+	Delete(context.Context, int64)  error
+	Update(context.Context, storage.Category) error
 }
 
 type Svc struct {
