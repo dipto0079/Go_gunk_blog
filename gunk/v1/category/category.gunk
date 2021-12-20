@@ -44,7 +44,7 @@ type CompleteCategoryResponse struct{}
 type GetAllDataCategoryRequest struct{}
 
 type GetAllDataCategoryResponse struct{
-	Category Category `pb:"1"`
+	Category []Category `pb:"1"`
 }
 
 

@@ -32,8 +32,8 @@ func main() {
 	if err := config.ReadInConfig(); err != nil {
 		log.Printf("error loading configuration: %v", err)
 	}
-	grpcServer := grpc.NewServer()
 
+	grpcServer := grpc.NewServer()
 
 	store, err := newDBFromConfig(config)
 	if err != nil {
