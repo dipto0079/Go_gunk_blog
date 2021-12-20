@@ -10,8 +10,8 @@ type blogCoreStore interface {
 	Create(context.Context, storage.Blog) (int64, error)
 	ListBlog(context.Context) ([]storage.Blog, error)
 	GetBlog(context.Context,int64) (storage.Blog, error)
-	// Delete(context.Context, int64)  error
-	// Update(context.Context, storage.Category) error
+	BlogDelete(context.Context, int64)  error
+	UpdateBlog(context.Context, storage.Blog) error
 }
 
 type Svc struct {

@@ -28,3 +28,11 @@ func (cs CoreSve) ListBlog(ctx context.Context) ([]storage.Blog, error) {
 func (cs CoreSve) GetBlog(ctx context.Context,id int64)  (storage.Blog, error) {
 	return cs.store.GetBlog(ctx, id)
 }
+
+func (cs CoreSve) UpdateBlog(ctx context.Context, c storage.Blog) error{
+	return cs.store.UpdateBlog(ctx, c)
+}
+
+func (cs CoreSve) BlogDelete(ctx context.Context,id int64)  error {
+	return cs.store.BlogDelete(ctx, id)
+}
