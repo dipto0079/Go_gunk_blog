@@ -16,7 +16,7 @@ func (s *Svc) ListBlog(ctx context.Context, req *tpb.ListBlogRequest) (*tpb.List
 	for _, v := range ids {
 		bl = append(bl, &tpb.Blog{
 			ID:         v.ID,
-			Cat_ID: v.Cat_ID,
+			CatID: v.CatID,
 			Title:      v.Title,
 			Description: v.Description,
 		})

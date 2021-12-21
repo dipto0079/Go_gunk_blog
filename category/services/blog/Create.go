@@ -11,7 +11,7 @@ import (
 
 func (s *Svc) Create(ctx context.Context,req *tpb.CreateBlogRequest) (*tpb.CreateBlogResponse, error){
 	category :=storage.Blog{
-		Cat_ID: req.Blog.Cat_ID,
+		CatID: req.Blog.CatID,
 		Title: req.Blog.Title,
 		Description: req.Blog.Description,
 		Image: req.Blog.Image,

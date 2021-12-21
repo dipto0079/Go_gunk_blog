@@ -12,7 +12,7 @@ import (
 func (s *Svc) UpdateBlog(ctx context.Context, req *tpb.UpdateBlogRequest ) (*tpb.UpdateBlogResponse, error) {
 	blog := storage.Blog{
 		ID: req.GetBlog().ID,
-		Cat_ID: req.GetBlog().Cat_ID,
+		CatID: req.GetBlog().CatID,
 		Title: req.GetBlog().Title,
 		Description: req.GetBlog().Description,
 		Image: req.GetBlog().Image,

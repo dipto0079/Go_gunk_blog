@@ -7,8 +7,12 @@ CREATE TABLE IF NOT EXISTS blogs(
     description TEXT NOT NULL,
     image TEXT NOT NULL,
 
-    PRIMARY KEY(id)
-)
+    PRIMARY KEY(id),
+    CONSTRAINT fk_category
+      FOREIGN KEY(cat_id) 
+	  REFERENCES categorys(id)
+	  ON DELETE SET NULL
+);
 -- +goose StatementEnd
 
 -- +goose Down

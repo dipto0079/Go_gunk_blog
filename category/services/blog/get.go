@@ -21,7 +21,7 @@ func(s *Svc) GetBlog(ctx context.Context,req *tpb.GetBlogRequest) (*tpb.GetBlogR
 	return  &tpb.GetBlogResponse{
 		Blog : &tpb.Blog{
 			ID: blo.ID,
-			Cat_ID: blo.Cat_ID,
+			CatID: blo.CatID,
 			Title: blo.Title,
 			Description: blo.Description,
 			Image: blo.Image,

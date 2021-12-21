@@ -12,7 +12,6 @@ const insertBlog = `
 		title,
 		description,
 		image
-
 	)VALUES(
 		:cat_id,
 		:title,
@@ -37,7 +36,7 @@ func (s *Storage) ListBlog(ctx context.Context) ([]storage.Blog, error) {
 
 	var b []storage.Blog
 
-	if err := s.db.Select(&b, "SELECT * FROM blogs order by id desc"); err != nil {
+	if err := s.db.Get(&b, "SELECT * cat_id, title, description, image, title FROM blogs LEFT JOIN categorys ON categorys.id = cat_id  order by id desc"); err != nil {
 		return b, err
 	}
 	return b, nil

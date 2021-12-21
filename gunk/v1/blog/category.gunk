@@ -2,7 +2,7 @@ package blog
 
 type Blog struct {
 	ID          int64  `pb:"1"`
-	Cat_ID      int64  `pb:"2"`
+	CatID      int64  `pb:"2"`
 	Title       string `pb:"3"`
 	Description string `pb:"4"`
 	Image       string `pb:"5"`
