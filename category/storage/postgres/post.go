@@ -35,7 +35,7 @@ func (s *Storage) ListBlog(ctx context.Context) ([]storage.Blog, error) {
 
 	var b []storage.Blog
 
-	if err := s.db.Select(&b, "SELECT cat_id, blogs.title, description, image, categories.title as catname FROM blogs LEFT JOIN categories ON categories.id = blogs.cat_id  order by blogs.id desc"); err != nil {
+	if err := s.db.Select(&b, "SELECT blogs.id, cat_id, blogs.title, description, image, categories.title as catname FROM blogs LEFT JOIN categories ON categories.id = blogs.cat_id  order by blogs.id desc"); err != nil {
 		return b, err
 	}
 	return b, nil
@@ -53,7 +53,7 @@ func (s *Storage) GetBlog(ctx context.Context, id int64) (storage.Blog, error) {
 const UpdateBlog = `
 	UPDATE blogs 
 	SET
-		cat_id =: cat_id,
+		cat_id =:cat_id,
 		title =:title,
 		description =:description,
 		image =:image

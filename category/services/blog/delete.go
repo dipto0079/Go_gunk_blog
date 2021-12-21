@@ -8,7 +8,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (s *Svc)Delete(ctx context.Context, req *tpb.DeleteBlogRequest) (*tpb.DeleteBlogResponse, error){
+func (s *Svc)DeleteBlog(ctx context.Context, req *tpb.DeleteBlogRequest) (*tpb.DeleteBlogResponse, error){
 	
 	err:=s.core.BlogDelete(context.Background(),req.GetID())
 	if err != nil {

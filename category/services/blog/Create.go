@@ -10,16 +10,16 @@ import (
 )
 
 func (s *Svc) CreateBlog(ctx context.Context,req *tpb.CreateBlogRequest) (*tpb.CreateBlogResponse, error){
-	category :=storage.Blog{
+	blog :=storage.Blog{
 		CatID: req.Blog.CatID,
 		Title: req.Blog.Title,
 		Description: req.Blog.Description,
 		Image: req.Blog.Image,
 	}
 	
-	id,err:=s.core.Create(context.Background(),category)
+	id,err:=s.core.Create(context.Background(),blog)
 	if err != nil {
-		return nil, status.Errorf(codes.Internal,"failed to create category: %s",err)
+		return nil, status.Errorf(codes.Internal,"failed to create Blog: %s",err)
 	}
 	return &tpb.CreateBlogResponse{
 		ID: id,

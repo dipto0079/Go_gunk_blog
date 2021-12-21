@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS blogs(
     PRIMARY KEY(id),
     CONSTRAINT fk_category
       FOREIGN KEY(cat_id) 
-	  REFERENCES categorys(id)
+	  REFERENCES categories(id)
 	  ON DELETE SET NULL
 );
 -- +goose StatementEnd

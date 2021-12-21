@@ -1,6 +1,6 @@
 -- +goose Up
 -- +goose StatementBegin
-CREATE TABLE IF NOT EXISTS categorys(
+CREATE TABLE IF NOT EXISTS categories(
     id SERIAL NOT NULL,
     title TEXT NOT NULL,
     is_completed BOOLEAN DEFAULT false,
@@ -11,5 +11,5 @@ CREATE TABLE IF NOT EXISTS categorys(
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE IF EXISTS categorys;
+DROP TABLE IF EXISTS categories;
 -- +goose StatementEnd

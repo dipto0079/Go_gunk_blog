@@ -1,21 +1,18 @@
 package handler
 
 import (
-	//"fmt"
-	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"path/filepath"
 	"strconv"
 	"time"
-
-	//"strconv"
 
 	tpb "blog/gunk/v1/blog"
 	tpc "blog/gunk/v1/category"
 
 	validation "github.com/go-ozzo/ozzo-validation"
-	//"github.com/gorilla/mux"
+	"github.com/gorilla/mux"
 )
 
 type Blog struct{
@@ -50,7 +47,6 @@ func (h *Handler) BlogList(rw http.ResponseWriter, r *http.Request) {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
 	if err := h.templates.ExecuteTemplate(rw, "list-blog.html", blogData); err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
@@ -90,8 +86,6 @@ func (h *Handler) createPostData(rw http.ResponseWriter, catId int64, title stri
 		Category:    cats,
 		Errors:      errs,
 	}
-
-	fmt.Println(form)
 	if err := h.templates.ExecuteTemplate(rw, "create_blog.html", form); err != nil {
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
@@ -186,4 +180,211 @@ func (h *Handler) BlogStore(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	http.Redirect(rw, r, "/", http.StatusTemporaryRedirect)
+}
+
+func (h *Handler) BlogDelete(rw http.ResponseWriter, r *http.Request) {
+
+	vars := mux.Vars(r)
+	Id := vars["id"]
+
+	if Id == "" {
+		http.Error(rw, "Invalid URL", http.StatusInternalServerError)
+		return
+	}
+
+	id, err := strconv.ParseInt(Id, 10, 64)
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	_, err = h.tb.DeleteBlog(r.Context(), &tpb.DeleteBlogRequest{
+		ID: id,
+	})
+
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	http.Redirect(rw, r, "/blog/list", http.StatusTemporaryRedirect)
+}
+
+func (h *Handler) BlogEdit(rw http.ResponseWriter, r *http.Request) {
+	data, err := h.tc.GetAllData(r.Context(), &tpc.GetAllDataCategoryRequest{})
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	cats := []Category{}
+
+	for _, v := range data.Category {
+		cats = append(cats, Category{
+			ID:   v.ID,
+			Title: v.Title,
+		})
+	}
+
+	vars := mux.Vars(r)
+	Id := vars["id"]
+
+	if Id == "" {
+		http.Error(rw, "Invalid URL", http.StatusInternalServerError)
+		return
+	}
+
+	id, err := strconv.ParseInt(Id, 10, 64)
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	post, err := h.tb.GetBlog(r.Context(), &tpb.GetBlogRequest{
+		ID: id,
+	})
+
+	if err != nil {
+		http.Error(rw, "Invalid URL", http.StatusInternalServerError)
+		return
+	}
+
+	rerrs := map[string]string{}
+
+	h.editBlogData(rw, id, post.Blog.CatID, post.Blog.Title, post.Blog.Description, cats, rerrs)
+}
+func (h *Handler) editBlogData(rw http.ResponseWriter, id int64, catId int64, title string, desc string, cats []Category, errs map[string]string) {
+	form := Blog{
+		ID:          id,
+		CatID:       catId,
+		Title:       title,
+		Description: desc,
+		Category:    cats,
+		Errors:      errs,
+	}
+	if err := h.templates.ExecuteTemplate(rw, "edit_Blog.html", form); err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
+
+func (h *Handler) BlogUpdate(rw http.ResponseWriter, r *http.Request) {
+	data, err := h.tc.GetAllData(r.Context(), &tpc.GetAllDataCategoryRequest{})
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	cats := []Category{}
+
+	for _, v := range data.Category {
+		cats = append(cats, Category{
+			ID:   v.ID,
+			Title: v.Title,
+		})
+	}
+	vars := mux.Vars(r)
+	Id := vars["id"]
+
+	if Id == "" {
+		http.Error(rw, "Invalid URL", http.StatusInternalServerError)
+		return
+	}
+
+	id, err := strconv.ParseInt(Id, 10, 64)
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	blog, err := h.tb.GetBlog(r.Context(), &tpb.GetBlogRequest{
+		ID: id,
+	})
+
+	if err != nil {
+		http.Error(rw, "Invalid URL", http.StatusInternalServerError)
+		return
+	}
+
+	if err := r.ParseForm(); err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	imgName := ""
+	file, fileHeader, err := r.FormFile("Image")
+
+	if file != nil {
+		r.Body = http.MaxBytesReader(rw, r.Body, MAX_UPLOAD_SIZE)
+		if err := r.ParseMultipartForm(MAX_UPLOAD_SIZE); err != nil {
+			http.Error(rw, "The uploaded file is too big. Please choose an file that's less than 10MB in size", http.StatusBadRequest)
+			return
+		}
+
+		if err != nil {
+			http.Error(rw, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		defer file.Close()
+
+		now := strconv.Itoa(int(time.Now().UnixNano()))
+		img := "upload-*" + now + filepath.Ext(fileHeader.Filename)
+		tempFile, err := ioutil.TempFile("cms/assets/uploads", img)
+
+		if err != nil {
+			http.Error(rw, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		defer tempFile.Close()
+
+		fileBytes, err := ioutil.ReadAll(file)
+		if err != nil {
+			http.Error(rw, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		tempFile.Write(fileBytes)
+		imgName = tempFile.Name()
+		if err := os.Remove(blog.Blog.Image); err != nil {
+			http.Error(rw, "Invalid URL", http.StatusInternalServerError)
+			return
+		}
+	} else {
+		imgName = blog.Blog.Image
+	}
+
+	var bBlog Blog
+	if err := h.decoder.Decode(&bBlog, r.PostForm); err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if err := bBlog.Validate(); err != nil {
+		valError, ok := err.(validation.Errors)
+		if ok {
+			vErrs := make(map[string]string)
+			for key, value := range valError {
+				vErrs[key] = value.Error()
+			}
+			h.editBlogData(rw, id, bBlog.CatID, bBlog.Title, bBlog.Description, cats, vErrs)
+			return
+		}
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	_, err = h.tb.UpdateBlog(r.Context(), &tpb.UpdateBlogRequest{
+		Blog: &tpb.Blog{
+			ID:          id,
+			CatID:       bBlog.CatID,
+			Title:       bBlog.Title,
+			Description: bBlog.Description,
+			Image:       imgName,
+		},
+	})
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	http.Redirect(rw, r, "/blog/list", http.StatusTemporaryRedirect)
 }
