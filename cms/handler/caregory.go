@@ -21,6 +21,15 @@ func (c *Category) Validate() error {
 	)
 }
 
+func (h *Handler) CategoryList(rw http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+	res, _ := h.tc.GetAllData(ctx, &tpc.GetAllDataCategoryRequest{})
+	if err := h.templates.ExecuteTemplate(rw, "list_category.html", res); err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
 // Add
 func (h *Handler) CategoryCreate(rw http.ResponseWriter, r *http.Request) {
 
@@ -83,7 +92,7 @@ func (h *Handler) CategoryStore(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.Redirect(rw, r, "/", http.StatusTemporaryRedirect)
+	http.Redirect(rw, r, "/category/list", http.StatusTemporaryRedirect)
 }
 
 
@@ -106,7 +115,7 @@ func (h *Handler) Delete(rw http.ResponseWriter, r *http.Request) {
 		http.Error(rw, "Invalid URL", http.StatusInternalServerError)
 		return
 	}
-	http.Redirect(rw, r, "/", http.StatusTemporaryRedirect)
+	http.Redirect(rw, r, "/category/list", http.StatusTemporaryRedirect)
 }
 
 
@@ -199,7 +208,7 @@ func (h *Handler) Update(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.Redirect(rw, r, "/", http.StatusTemporaryRedirect)
+	http.Redirect(rw, r, "/category/list", http.StatusTemporaryRedirect)
 }
 
 

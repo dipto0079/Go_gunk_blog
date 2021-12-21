@@ -33,6 +33,7 @@ func New(decoder *schema.Decoder, sess *sessions.CookieStore, tc tpc.CategorySer
 	h.parseTemplates()
 	r := mux.NewRouter()
 	r.HandleFunc("/", h.Home)
+	r.HandleFunc("/category/list", h.CategoryList)
 	r.HandleFunc("/category/create", h.CategoryCreate)
 	r.HandleFunc("/category/store", h.CategoryStore)
 	r.HandleFunc("/category/{id:[0-9]+}/delete", h.Delete)
@@ -44,6 +45,7 @@ func New(decoder *schema.Decoder, sess *sessions.CookieStore, tc tpc.CategorySer
 	r.HandleFunc("/blog/store", h.BlogStore)
 	r.HandleFunc("/blog/{id:[0-9]+}/update", h.BlogUpdate)
 	r.HandleFunc("/blog/list", h.BlogList)
+	r.HandleFunc("/blog/{id:[0-9]+}/single", h.BlogSingle)
 	r.HandleFunc("/blog/{id:[0-9]+}/delete", h.BlogDelete)
 	r.HandleFunc("/blog/{id:[0-9]+}/edit", h.BlogEdit)
 
@@ -63,10 +65,11 @@ func (h *Handler) parseTemplates() {
 		"cms/assets/templates/404.html",
 		"cms/assets/templates/index.html",
 		"cms/assets/templates/create_Category.html",
-		//"cms/assets/templates/list-category.html",
+		"cms/assets/templates/list_category.html",
 		"cms/assets/templates/edit_Category.html",
 		"cms/assets/templates/create_blog.html",
 		"cms/assets/templates/list-blog.html",
 		"cms/assets/templates/edit_Blog.html",
+		"cms/assets/templates/single_blog.html",
 	))
 }

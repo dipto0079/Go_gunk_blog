@@ -22,7 +22,7 @@
         </div>
         <div class="col-md-4">
             <div class="body" style="text-align: center;">
-                <a class="btn btn-primary" href="/category/list">Category list</a>
+                <a class="btn btn-primary" href="/category/List">Category list</a>
             </div>
         </div>
         <div class="col-md-4">
@@ -31,7 +31,6 @@
             </div>
         </div>
     </div>
-
     <div class="row" style="margin-top: 20px;">
         <div class="col-md-4">
             <div class="body" style="text-align: center;">
@@ -49,7 +48,6 @@
             </div>
         </div>
     </div>
-
     <div class="row">
 
         <div class="col-12">
@@ -57,29 +55,30 @@
                 <thead>
                 <tr>
                     <th>Title</th>
-                    <th>Description</th>
-                    <th>Image</th>
-                    <th>Category Name</th>
+                    <th>Status</th>
                     <th>Action</th>
 
                 </tr>
                 </thead>
                 <tbody>
-                {{range .Blog}}
+                {{range .Category}}
 
                 <tr id="myTR">
                     <td>{{.Title}}</td>
-                    <td>{{.Description}}</td>
+                    
+                    {{if .IsComplete}}
                     <td>
-                        <img src="/assets/{{.Image}}" width="50" height="50">
+                        <button type="button" class="btn btn-success">Active</button>
                     </td>
-                    <td>{{.CatName}}</td>
+                    {{else}}
                     <td>
-                        <td>
-                            <a href="/blog/{{.ID}}/edit" class="btn btn-secondary">Edit</a>
-                            <a href="/blog/{{.ID}}/delete" class="btn btn-warning">Delete</a>
-                           
-                        </td>
+                        <button type="button" class="btn btn-danger">Deactivate</button>
+                    </td>
+                    {{end}}
+                    <td>
+                        <a href="/category/{{.ID}}/edit" class="btn btn-secondary">Edit</a>
+                        <a href="/category/{{.ID}}/delete" class="btn btn-warning">Delete</a>
+                       
                     </td>
                 </tr>
                 {{end}}
