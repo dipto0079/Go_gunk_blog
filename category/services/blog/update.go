@@ -4,7 +4,7 @@ import (
 	"blog/category/storage"
 	tpb "blog/gunk/v1/blog"
 	"context"
-	
+
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -17,6 +17,7 @@ func (s *Svc) UpdateBlog(ctx context.Context, req *tpb.UpdateBlogRequest ) (*tpb
 		Description: req.GetBlog().Description,
 		Image: req.GetBlog().Image,
 	}
+	
 	err := s.core.UpdateBlog(context.Background(), blog)
 	if err != nil{
 		return nil, status.Error(codes.Internal, "failed to Update category.")

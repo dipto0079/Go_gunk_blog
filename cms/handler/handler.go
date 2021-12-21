@@ -42,9 +42,12 @@ func New(decoder *schema.Decoder, sess *sessions.CookieStore, tc tpc.CategorySer
 
 	r.HandleFunc("/blog/create", h.BlogCreate)
 	r.HandleFunc("/blog/store", h.BlogStore)
+	r.HandleFunc("/blog/{id:[0-9]+}/update", h.BlogUpdate)
 	r.HandleFunc("/blog/list", h.BlogList)
+	r.HandleFunc("/blog/{id:[0-9]+}/delete", h.BlogDelete)
+	r.HandleFunc("/blog/{id:[0-9]+}/edit", h.BlogEdit)
 
-	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets"))))
+	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("./"))))
 
 	r.NotFoundHandler = http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
 		if err := h.templates.ExecuteTemplate(rw, "404.html", nil); err != nil {
@@ -64,5 +67,6 @@ func (h *Handler) parseTemplates() {
 		"cms/assets/templates/edit_Category.html",
 		"cms/assets/templates/create_blog.html",
 		"cms/assets/templates/list-blog.html",
+		"cms/assets/templates/edit_Blog.html",
 	))
 }

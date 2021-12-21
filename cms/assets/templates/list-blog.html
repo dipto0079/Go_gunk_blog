@@ -70,9 +70,17 @@
                 <tr id="myTR">
                     <td>{{.Title}}</td>
                     <td>{{.Description}}</td>
-                    <td>{{.Image}}</td>
+                    <td>
+                        <img src="/assets/{{.Image}}" width="50" height="50">
+                    </td>
                     <td>{{.CatName}}</td>
-                    <td>Action</td>
+                    <td>
+                        <td>
+                            <a href="/blog/{{.ID}}/edit" class="btn btn-secondary">Edit</a>
+                            <a href="/blog/{{.ID}}/delete" class="btn btn-warning">Delete</a>
+                           
+                        </td>
+                    </td>
                 </tr>
                 {{end}}
 
