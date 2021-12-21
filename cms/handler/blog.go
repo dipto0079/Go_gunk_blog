@@ -179,7 +179,7 @@ func (h *Handler) BlogStore(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.Redirect(rw, r, "/", http.StatusTemporaryRedirect)
+	http.Redirect(rw, r, "/blog/list", http.StatusTemporaryRedirect)
 }
 
 func (h *Handler) BlogDelete(rw http.ResponseWriter, r *http.Request) {
