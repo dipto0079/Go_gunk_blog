@@ -30,10 +30,10 @@ type Blog struct{
 
 func (b *Blog) Validate() error {
 	return validation.ValidateStruct(b,
-		//validation.Field(&b.CatID, validation.Required.Error("This Filed cannot be blank")),
+		
 		validation.Field(&b.Title, validation.Required.Error("This Filed cannot be blank"), validation.Length(3, 0)),
 		validation.Field(&b.Description, validation.Required.Error("This Filed cannot be blank"), validation.Length(3, 0)),
-		//validation.Field(&b.Image, validation.Required.Error("This Filed cannot be blank")),
+	
 	)
 }
 
@@ -387,4 +387,59 @@ func (h *Handler) BlogUpdate(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	http.Redirect(rw, r, "/blog/list", http.StatusTemporaryRedirect)
+}
+
+func (h *Handler) BlogSingle(rw http.ResponseWriter, r *http.Request) {
+	data, err := h.tc.GetAllData(r.Context(), &tpc.GetAllDataCategoryRequest{})
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	cats := []Category{}
+
+	for _, v := range data.Category {
+		cats = append(cats, Category{
+			ID:   v.ID,
+			Title: v.Title,
+		})
+	}
+
+	vars := mux.Vars(r)
+	Id := vars["id"]
+
+	if Id == "" {
+		http.Error(rw, "Invalid URL", http.StatusInternalServerError)
+		return
+	}
+
+	id, err := strconv.ParseInt(Id, 10, 64)
+	if err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	post, err := h.tb.GetBlog(r.Context(), &tpb.GetBlogRequest{
+		ID: id,
+	})
+
+	if err != nil {
+		http.Error(rw, "Invalid URL", http.StatusInternalServerError)
+		return
+	}
+
+	rerrs := map[string]string{}
+
+	//h.editBlogData(rw, id, post.Blog.CatID, post.Blog.Title, post.Blog.Description, cats, rerrs)
+
+	form := Blog{
+		CatID:       post.Blog.CatID,
+		Title:       post.Blog.Title,
+		Description: post.Blog.Description,
+		Category:    cats,
+		Errors:      rerrs,
+	}
+	if err := h.templates.ExecuteTemplate(rw, "single_blog.html", form); err != nil {
+		http.Error(rw, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }
