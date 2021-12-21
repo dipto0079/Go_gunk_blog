@@ -12,5 +12,5 @@ type Blog struct {
 	Title       string `db:"title"`
 	Description string `db:"description"`
 	Image       string `db:"image"`
-	CatName     string `db:"name"`
+	CatName     string `db:"catname"`
 }

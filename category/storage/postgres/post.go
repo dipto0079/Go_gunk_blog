@@ -5,7 +5,6 @@ import (
 	"context"
 )
 
-
 const insertBlog = `
 	INSERT INTO blogs(
 		cat_id,
@@ -36,12 +35,11 @@ func (s *Storage) ListBlog(ctx context.Context) ([]storage.Blog, error) {
 
 	var b []storage.Blog
 
-	if err := s.db.Get(&b, "SELECT * cat_id, title, description, image, title FROM blogs LEFT JOIN categorys ON categorys.id = cat_id  order by id desc"); err != nil {
+	if err := s.db.Select(&b, "SELECT cat_id, blogs.title, description, image, categories.title as catname FROM blogs LEFT JOIN categories ON categories.id = blogs.cat_id  order by blogs.id desc"); err != nil {
 		return b, err
 	}
 	return b, nil
 }
-
 
 func (s *Storage) GetBlog(ctx context.Context, id int64) (storage.Blog, error) {
 	var b storage.Blog
@@ -51,7 +49,6 @@ func (s *Storage) GetBlog(ctx context.Context, id int64) (storage.Blog, error) {
 	}
 	return b, nil
 }
-
 
 const UpdateBlog = `
 	UPDATE blogs 
@@ -75,7 +72,7 @@ func (s *Storage) UpdateBlog(ctx context.Context, t storage.Blog) error {
 	if err := stmt.Get(&blog, t); err != nil {
 		return err
 	}
-	return  nil
+	return nil
 }
 
 func (s *Storage) BlogDelete(ctx context.Context, id int64) error {
@@ -85,5 +82,3 @@ func (s *Storage) BlogDelete(ctx context.Context, id int64) error {
 	}
 	return nil
 }
-
-

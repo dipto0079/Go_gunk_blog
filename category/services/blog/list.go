@@ -19,6 +19,7 @@ func (s *Svc) ListBlog(ctx context.Context, req *tpb.ListBlogRequest) (*tpb.List
 			CatID: v.CatID,
 			Title:      v.Title,
 			Description: v.Description,
+			CatName: v.CatName,
 		})
 	}
 	return &tpb.ListBlogResponse{

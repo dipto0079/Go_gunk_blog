@@ -6,6 +6,7 @@ type Blog struct {
 	Title       string `pb:"3"`
 	Description string `pb:"4"`
 	Image       string `pb:"5"`
+	CatName     string `pb:"6"`
 }
 
 type CreateBlogRequest struct {

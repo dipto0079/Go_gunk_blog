@@ -12,11 +12,14 @@ import (
 	"google.golang.org/grpc/reflection"
 
 	tc "blog/category/core/category"
+	tb "blog/category/core/blog"
 	tpc "blog/gunk/v1/category"
+	tpb "blog/gunk/v1/blog"
 
 	"blog/category/storage/postgres"
 	
 	"blog/category/services/category"
+	"blog/category/services/blog"
 	
 )
 
@@ -42,10 +45,16 @@ func main() {
 
 	cs := tc.NewCoreSve(store)
 
+	bc := tb.NewCoreSve(store)
+
 	s := category.NewCategoryServer(cs)
+
+	b := blog.NewCategoryServer(bc)
 
 
 	tpc.RegisterCategoryServiceServer(grpcServer, s)
+
+	tpb.RegisterBlogServiceServer(grpcServer, b)
 
 
 	host, port := config.GetString("server.host"), config.GetString("server.port")

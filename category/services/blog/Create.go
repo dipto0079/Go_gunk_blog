@@ -9,7 +9,7 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func (s *Svc) Create(ctx context.Context,req *tpb.CreateBlogRequest) (*tpb.CreateBlogResponse, error){
+func (s *Svc) CreateBlog(ctx context.Context,req *tpb.CreateBlogRequest) (*tpb.CreateBlogResponse, error){
 	category :=storage.Blog{
 		CatID: req.Blog.CatID,
 		Title: req.Blog.Title,
