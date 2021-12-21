@@ -13,6 +13,7 @@ import (
 	"google.golang.org/grpc"
 
 	tpb "blog/gunk/v1/category"
+	tpc "blog/gunk/v1/blog"
 )
 
 func main() {
@@ -42,8 +43,9 @@ func main() {
 	}
 	
 	tc := tpb.NewCategoryServiceClient(conn)
+	tb := tpc.NewBlogServiceClient(conn)
 
-	r := handler.New(decoder, store, tc)
+	r := handler.New(decoder, store, tc,tb)
 
 	host, port := config.GetString("server.host"), config.GetString("server.port")
 

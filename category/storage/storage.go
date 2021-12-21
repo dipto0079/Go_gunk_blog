@@ -8,8 +8,9 @@ type Category struct {
 
 type Blog struct {
 	ID          int64  `db:"id"`
-	Cat_ID      int64  `db:"cat_id"`
+	CatID      int64  `db:"cat_id"`
 	Title       string `db:"title"`
 	Description string `db:"description"`
 	Image       string `db:"image"`
+	CatName     string `db:"catname"`
 }

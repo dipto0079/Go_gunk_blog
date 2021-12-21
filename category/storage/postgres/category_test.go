@@ -175,31 +175,31 @@ func TestUpdateCategory(t *testing.T) {
 	}
 }
 
-// func TestDeleteCategory(t *testing.T) {
-// 	s := newTestStorage(t)
-// 	tests := []struct {
-// 		name    string
-// 		in      int64
-// 		wantErr bool
-// 	}{
-// 		{
-// 			name: "DELETE_Category_SUCCESS",
-// 			in: 1,
-// 		},
-// 		{
-// 			name: "FAILED_TO_DELETE_Category_DOES_NOT_EXIST",
-// 			in: 100,
-// 			wantErr: true,
-// 		},
-// 	}
-// 	for _, tt := range tests {
-// 		tt := tt
-// 		t.Run(tt.name, func(t *testing.T) {
-// 			err := s.Delete(context.Background(), tt.in)
-// 			if (err != nil) != tt.wantErr {
-// 				t.Errorf("Storage.Delete() error = %v, wantErr %v", err, tt.wantErr)
-// 				return
-// 			}
-// 		})
-// 	}
-// }
+func TestDeleteCategory(t *testing.T) {
+	s := newTestStorage(t)
+	tests := []struct {
+		name    string
+		in      int64
+		wantErr bool
+	}{
+		{
+			name: "DELETE_Category_SUCCESS",
+			in: 2,
+		},
+		{
+			name: "FAILED_TO_DELETE_Category_DOES_NOT_EXIST",
+			in: 100,
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		tt := tt
+		t.Run(tt.name, func(t *testing.T) {
+			err := s.Delete(context.Background(), tt.in)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Storage.Delete() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+		})
+	}
+}

@@ -31,6 +31,7 @@
             </div>
         </div>
     </div>
+
     <div class="row" style="margin-top: 20px;">
         <div class="col-md-4">
             <div class="body" style="text-align: center;">
@@ -48,6 +49,7 @@
             </div>
         </div>
     </div>
+
     <div class="row">
 
         <div class="col-12">
@@ -55,31 +57,22 @@
                 <thead>
                 <tr>
                     <th>Title</th>
-                    <th>Status</th>
+                    <th>Description</th>
+                    <th>Image</th>
+                    <th>Category Name</th>
                     <th>Action</th>
 
                 </tr>
                 </thead>
                 <tbody>
-                {{range .Category}}
+                {{range .Blog}}
 
                 <tr id="myTR">
                     <td>{{.Title}}</td>
-                    
-                    {{if .IsComplete}}
-                    <td>
-                        <button type="button" class="btn btn-success">Active</button>
-                    </td>
-                    {{else}}
-                    <td>
-                        <button type="button" class="btn btn-danger">Deactivate</button>
-                    </td>
-                    {{end}}
-                    <td>
-                        <a href="/category/{{.ID}}/edit" class="btn btn-secondary">Edit</a>
-                        <a href="/category/{{.ID}}/delete" class="btn btn-warning">Delete</a>
-                       
-                    </td>
+                    <td>{{.Description}}</td>
+                    <td>{{.Image}}</td>
+                    <td>{{.CatName}}</td>
+                    <td>Action</td>
                 </tr>
                 {{end}}
 

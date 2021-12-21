@@ -4,7 +4,8 @@ import (
 	"net/http"
 	"text/template"
 
-	tpb "blog/gunk/v1/category"
+	tpb "blog/gunk/v1/blog"
+	tpc "blog/gunk/v1/category"
 
 	"github.com/gorilla/mux"
 	"github.com/gorilla/schema"
@@ -17,14 +18,16 @@ type Handler struct {
 	templates *template.Template
 	decoder   *schema.Decoder
 	sess      *sessions.CookieStore
-	tc        tpb.CategoryServiceClient
+	tc        tpc.CategoryServiceClient
+	tb        tpb.BlogServiceClient
 }
 
-func New(decoder *schema.Decoder, sess *sessions.CookieStore, tc tpb.CategoryServiceClient) *mux.Router {
+func New(decoder *schema.Decoder, sess *sessions.CookieStore, tc tpc.CategoryServiceClient, tb tpb.BlogServiceClient) *mux.Router {
 	h := &Handler{
 		decoder: decoder,
 		sess:    sess,
 		tc:      tc,
+		tb:      tb,
 	}
 
 	h.parseTemplates()
@@ -32,11 +35,14 @@ func New(decoder *schema.Decoder, sess *sessions.CookieStore, tc tpb.CategorySer
 	r.HandleFunc("/", h.Home)
 	r.HandleFunc("/category/create", h.CategoryCreate)
 	r.HandleFunc("/category/store", h.CategoryStore)
-	r.HandleFunc("/category/{id:[0-9]+}/delete", h.Delete)	
-	 r.HandleFunc("/category/{id:[0-9]+}/edit", h.Edit)
-	 r.HandleFunc("/category/{id:[0-9]+}/update", h.Update)
-	
+	r.HandleFunc("/category/{id:[0-9]+}/delete", h.Delete)
+	r.HandleFunc("/category/{id:[0-9]+}/edit", h.Edit)
+	r.HandleFunc("/category/{id:[0-9]+}/update", h.Update)
 
+
+	r.HandleFunc("/blog/create", h.BlogCreate)
+	r.HandleFunc("/blog/store", h.BlogStore)
+	r.HandleFunc("/blog/list", h.BlogList)
 
 	r.PathPrefix("/assets/").Handler(http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets"))))
 
@@ -56,5 +62,7 @@ func (h *Handler) parseTemplates() {
 		"cms/assets/templates/create_Category.html",
 		//"cms/assets/templates/list-category.html",
 		"cms/assets/templates/edit_Category.html",
+		"cms/assets/templates/create_blog.html",
+		"cms/assets/templates/list-blog.html",
 	))
 }

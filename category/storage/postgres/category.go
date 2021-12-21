@@ -6,7 +6,7 @@ import (
 )
 
 const insertCategory = `
-	INSERT INTO categorys(
+	INSERT INTO categories(
 		title
 	)VALUES(
 		:title
@@ -28,14 +28,14 @@ func (s *Storage) Create_sto(ctx context.Context, t storage.Category) (int64, er
 func (s *Storage) Get_sto(ctx context.Context, id int64) (storage.Category, error) {
 	var c storage.Category
 
-	if err := s.db.Get(&c, "SELECT * FROM categorys WHERE id=$1", id); err != nil {
+	if err := s.db.Get(&c, "SELECT * FROM categories WHERE id=$1", id); err != nil {
 		return c, err
 	}
 	return c, nil
 }
 
 const updateCategory = `
-	UPDATE categorys 
+	UPDATE categories 
 	SET
 		title =:title
 		
@@ -58,7 +58,7 @@ func (s *Storage) Update(ctx context.Context, t storage.Category) error {
 
 func (s *Storage) Delete(ctx context.Context, id int64) error {
 	var b storage.Category
-	if err := s.db.Get(&b, "DELETE FROM categorys WHERE id=$1 RETURNING * ", id); err != nil {
+	if err := s.db.Get(&b, "DELETE FROM categories WHERE id=$1 RETURNING * ", id); err != nil {
 		return err
 	}
 	return nil
@@ -68,7 +68,7 @@ func (s *Storage) Get_all_Data(ctx context.Context) ([]storage.Category, error) 
 
 	var c []storage.Category
 
-	if err := s.db.Select(&c, "SELECT * FROM categorys order by id desc"); err != nil {
+	if err := s.db.Select(&c, "SELECT * FROM categories order by id desc"); err != nil {
 		return c, err
 	}
 	return c, nil

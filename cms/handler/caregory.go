@@ -5,7 +5,7 @@ import (
 	"strconv"
 	//	"strconv"
 
-	tpb "blog/gunk/v1/category"
+	tpc "blog/gunk/v1/category"
 
 	validation "github.com/go-ozzo/ozzo-validation"
 	"github.com/gorilla/mux"
@@ -75,8 +75,8 @@ func (h *Handler) CategoryStore(rw http.ResponseWriter, r *http.Request) {
 
 	
 
-	_, err := h.tc.Create(r.Context(), &tpb.CreateCategoryRequest{
-		Category: &tpb.Category{
+	_, err := h.tc.Create(r.Context(), &tpc.CreateCategoryRequest{
+		Category: &tpc.Category{
 			Title: category.Title,
 		},
 	})
@@ -101,7 +101,7 @@ func (h *Handler) Delete(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_, err := h.tc.Delete(r.Context(), &tpb.DeleteCategoryRequest{
+	_, err := h.tc.Delete(r.Context(), &tpc.DeleteCategoryRequest{
 		ID: id,
 	})
 	if err != nil {
@@ -124,7 +124,7 @@ func (h *Handler) Edit(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	res, err := h.tc.Get(r.Context(), &tpb.GetCategoryRequest{
+	res, err := h.tc.Get(r.Context(), &tpc.GetCategoryRequest{
 		ID: id,
 	})
 	if err != nil {
@@ -133,11 +133,11 @@ func (h *Handler) Edit(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	errs := map[string]string{}
-	h.editBookData(rw, res.Category.ID,res.Category.Title, errs)
+	h.editData(rw, res.Category.ID,res.Category.Title, errs)
 	return
 }
 
-func (h *Handler) editBookData(rw http.ResponseWriter, id int64, title string, errs map[string]string) {
+func (h *Handler) editData(rw http.ResponseWriter, id int64, title string, errs map[string]string) {
 
 	
 	form := Category{
@@ -183,15 +183,15 @@ func (h *Handler) Update(rw http.ResponseWriter, r *http.Request) {
 			for key, value := range valError {
 				vErrs[key] = value.Error()
 			}
-			h.editBookData(rw, id, category.Title, vErrs)
+			h.editData(rw, id, category.Title, vErrs)
 			return
 		}
 		http.Error(rw, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	_, err := h.tc.Update(r.Context(), &tpb.UpdateCategoryRequest{
-		Category: &tpb.Category{
+	_, err := h.tc.Update(r.Context(), &tpc.UpdateCategoryRequest{
+		Category: &tpc.Category{
 			ID: id,
 			Title: category.Title,
 		},
