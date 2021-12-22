@@ -19,14 +19,14 @@ License: You must have a valid license purchased only from themeforest(the above
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Single Blog</title>
+    <title>{{.Title}} |Single Blog</title>
     <!-- Bootstrap -->
-    <link href="assets/cms/assets/blog_assets/bootstrap/bootstrap.min.css" rel="stylesheet">
-    <link rel='stylesheet' id='redux-google-fonts-css'  href='assets/cms/assets/fonts.googleapis.com/csse428.css?family=Roboto%3A400%2C700%2C500&amp;ver=1422437441' type='text/css' media='all' />
-    <link href="assets/cms/assets/blog_assets/css/main_style.css" rel="stylesheet">
-    <link href="assets/cms/assets/blog_assets/css/options.css" rel="stylesheet">
-	<link href="assets/cms/assets/blog_assets/css/custome.css" rel="stylesheet">    
-    <link rel="shortcut icon" href="assets/cms/assets/blog_assets/images/favicon.ico">
+    <link href="../assets/cms/assets/blog_assets/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link rel='stylesheet' id='redux-google-fonts-css'  href='../assets/cms/assets/fonts.googleapis.com/csse428.css?family=Roboto%3A400%2C700%2C500&amp;ver=1422437441' type='text/css' media='all' />
+    <link href="../assets/cms/assets/blog_assets/css/main_style.css" rel="stylesheet">
+    <link href="../assets/cms/assets/blog_assets/css/options.css" rel="stylesheet">
+	<link href="../assets/cms/assets/blog_assets/css/custome.css" rel="stylesheet">    
+    <link rel="shortcut icon" href="../assets/cms/assets/blog_assets/images/favicon.ico">
   </head>
   <body class="single">
    <div class="oi_head_holder">
@@ -39,33 +39,24 @@ License: You must have a valid license purchased only from themeforest(the above
                 	<i class="fa fa-bars fa-2x visible-xs oi_xs_menu"></i>
                        <nav class="menu-general-menu-container">
                         <ul id="menu-general-menu" class="oi_header_menu">
-                            <li><a href="index-2.html">Home</a>
-                            <ul class="sub-menu">
-                                <li><a href="index-2.html">Agency</a></li>
-                                <li><a href="agency.html">Agency 2</a></li>
-                                <li><a href="agency-3.html">Agency 3</a></li>
-                            </ul>
-                            </li>
-                            <li><a href="about.html">About</a></li>
-                            <li class="current-menu-item"><a href="blog.html">Blog</a></li>
-                            <li><a href="#">Portfolio</a>
-                            <ul class="sub-menu">
-                                <li><a href="portfolio-square-thumbs.html">Square Thumbs</a></li>
-                                <li><a href="portfolio-square-thumb-spaces.html">Square Thumbs + Spaces</a></li>
-                                <li><a href="portfolio-random-thumbs.html">Random Thumbs</a></li>
-                                <li><a href="portfolio-random-thumbs-spaces.html">Random Thumbs + Spaces</a></li>
-                                <li><a>———</a></li>
-                                <li><a href="lamobile.html">Single Example 1</a></li>
-                                <li><a href="good-co-coffee.html">Single Example 2</a></li>
-                                <li><a href="anker.html">Single Example 3</a></li>
-                                <li><a href="flight-to-the-flats.html">Single Example 4</a></li>
-                                <li><a href="suez-environnement.html">Single Example 5</a></li>
-                            </ul>
-                            </li>
-                            <li><a href="contacts.html">Contacts</a></li>
-                            <li><a href="http://themeforest.net/item/buran-smart-portfolio-and-business-html-template/10467159?ref=FoxSash">Purchase</a></li>
-                            </ul>
-                        </nav>
+                            <nav class="menu-general-menu-container">
+                                <ul id="menu-general-menu" class="oi_header_menu">
+                                    
+                                    <li><a href="/">Home</a></li>
+                                    <!-- <li class="current-menu-item"><a href="">Blog</a></li> -->
+                                    <li><a href="#">Add</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="/category/create">Category Create</a></li>
+                                        <li><a href="/category/list">Category list</a></li>
+                                        <li><a>———</a></li>
+                                        <li><a href="/blog/create">Blog Create</a></li>
+                                        <li><a href="/blog/list">Blog List</a></li>
+                                        
+                                    </ul>
+                                    </li>
+                                    
+                                    </ul>
+                                </nav>
                 </div>
             </div>           
         </div>
@@ -82,7 +73,11 @@ License: You must have a valid license purchased only from themeforest(the above
                             <div class="col-md-12">
                                 <div class="oi_post_holder">
                                     <div class="oi_blog_post_data_holder">
-                                        <span class="oi_ddate">January 15, 2015</span>
+            
+                                        <h1 class="oi_legend blog_title">{{.CatName}}</h1>
+                                    </div>
+                                    <div class="oi_blog_post_title_holder">
+                                        <h1 class="oi_legend blog_title">{{.CatName}}</h1>
                                     </div>
                                     <div class="oi_blog_post_title_holder">
                                         <h1 class="oi_legend blog_title">{{.Title}}</h1>
@@ -96,81 +91,11 @@ License: You must have a valid license purchased only from themeforest(the above
                                     </div>
                                     <div class="oi_blog_post_content_holder">
                                         <p>
-                                            Nulla varius sed diam nec vestibulum. Nunc ligula enim, imperdiet ac consectetur vel, mattis in nulla
-                                        </p>
-                                        <p>
-                                            Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of “de Finibus Bonorum et Malorum” (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, “Lorem ipsum dolor sit amet..”, comes from a line in section 1.10.32.
-                                        </p>
-                                        <blockquote>
-                                            <p>
-                                                Hi there! I’m a bike messenger by day, aspiring actor by night, and this is my blog. I live in Los Angeles, have a great dog named Jack, and I like piña coladas. (And gettin’ caught in the rain.)
-                                            </p>
-                                        </blockquote>
-                                        <p>
-                                            …or something like this:
-                                        </p>
-                                        <blockquote>
-                                            <p>
-                                                The XYZ Doohickey Company was founded in 1971, and has been providing quality doohickeys to the public ever since. Located in Gotham City, XYZ employs over 2,000 people and does all kinds of awesome things for the Gotham community.
-                                            </p>
-                                        </blockquote>
-                                        <pre>
-.post-title {
-    margin: 0 0 5px;
-    font-weight: bold;
-    font-size: 38px;
-    line-height: 1.2;
-}
-                                        </pre>
-                                        <p>
-                                            There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don’t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn’t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.
+                                         {{.Description}}
                                         </p>
                                     </div>
-                                    <div class="oi_blog_post_cat_holder">
-                                        <span class="oi_blog_post_cat"><i class="fa fa-folder-o"></i> <a href="#" rel="category tag">Uncategorized</a></span>
-                                        <span class="oi_blog_post_cat"></span>
-                                    </div>
-                                    <div class="clearfix">
-                                    </div>
-                                    <div class="oi_soc_header oi_single_post_share">
-                                        <span class="oi_share_text">Share: </span>
-                                        <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=http://themes.foxsash.com/buran/donec-acultrices-urna.html" title="LinkedIn" target="_blank"><i class="fa fa-linkedin"></i></a>/ 
-                                        <a href="http://www.facebook.com/sharer.php?u=http://themes.foxsash.com/buran/donec-acultrices-urna.html" title="Facebook" target="_blank"><i class="fa fa-facebook"></i></a>/ 
-                                        <a href="https://twitter.com/share?url=http:/http://themes.foxsash.com/buran/donec-acultrices-urna.html" title="Facebook" target="_blank"><i class="fa fa-twitter"></i></a>/ 
-                                        <a href="https://plus.google.com/share?url=http://themes.foxsash.com/buran/donec-acultrices-urna.html" title="Google+" target="_blank"><i class="fa fa-google-plus"></i></a>
-                                    </div>
-                                    <div class="single_post_bottom_sidebar_holder">
-                                        <div id="comments" class="comments-area">
-                                            <div id="respond" class="comment-respond">
-                                                <h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="donec-acultrices-urna.html#respond" class="nodisplay">Cancel reply</a></small></h3>
-                                                <form action="javascript:alert('Was send!');" method="post" id="commentform" class="comment-form">
-                                                    <p class="comment-notes">
-                                                        <span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span>
-                                                    </p>
-                                                    <p class="comment-form-author">
-                                                        <label for="author">Name <span class="required">*</span></label><input id="author" name="author" type="text" value="" size="30" aria-required="true">
-                                                    </p>
-                                                    <p class="comment-form-email">
-                                                        <label for="email">Email <span class="required">*</span></label><input id="email" name="email" type="text" value="" size="30" aria-describedby="email-notes" aria-required="true">
-                                                    </p>
-                                                    <p class="comment-form-url">
-                                                        <label for="url">Website</label><input id="url" name="url" type="text" value="" size="30">
-                                                    </p>
-                                                    <p class="comment-form-comment">
-                                                        <label for="comment">Comment</label><textarea id="comment" name="comment" cols="45" rows="8" aria-describedby="form-allowed-tags" aria-required="true"></textarea>
-                                                    </p>
-                                                    <p class="form-allowed-tags" id="form-allowed-tags">
-                                                        You may use these <abbr title="HyperText Markup Language">HTML</abbr> tags and attributes: <code>&lt;a href="" title=""&gt; &lt;abbr title=""&gt; &lt;acronym title=""&gt; &lt;b&gt; &lt;blockquote cite=""&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=""&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=""&gt; &lt;strike&gt; &lt;strong&gt; </code>
-                                                    </p>
-                                                    <p class="form-submit">
-                                                        <input name="submit" type="submit" id="submit" class="submit" value="Post Comment">
-                                                    </p>
-                                                </form>
-                                            </div>
-                                            <!-- #respond -->
-                                        </div>
-                                        <!-- #comments -->
-                                    </div>
+                                   
+                                
                                 </div>
                             </div>
                         </div>
@@ -190,16 +115,16 @@ License: You must have a valid license purchased only from themeforest(the above
             </div>
         </div>
     </div>
-    <script src="assets/cms/assets/blog_assets/js/jquery-1.11.2.min.js"></script> 
-    <script src="assets/cms/assets/blog_assets/bootstrap/bootstrap.min.js"></script>
-    <script type='text/javascript' src='assets/cms/assets/blog_assets/js/SmoothScroll.js'></script>
-	<script type='text/javascript' src='assets/cms/assets/blog_assets/js/jquery.waitforimages.js'></script>
-    <script type='text/javascript' src='assets/cms/assets/blog_assets/js/isotope.pkgd.min.js'></script>
-    <script type='text/javascript' src='assets/cms/assets/cms/assets/blog_assets/js/lightbox.min.js'></script>
-    <script type='text/javascript' src='assets/cms/assets/blog_assets/FlexSlider/jquery.flexslider-min.js'></script>
-    <script type='text/javascript' src='assets/cms/assets/blog_assets/js/imagesloaded.js'></script>
-    <script type='text/javascript' src='assets/cms/assets/blog_assets/js/custom.js'></script>
-    <script type='text/javascript' src='assets/cms/assets/blog_assets/js/gmap3.min.js'></script>
+    <script src="../assets/cms/assets/blog_assets/js/jquery-1.11.2.min.js"></script> 
+    <script src="../assets/cms/assets/blog_assets/bootstrap/bootstrap.min.js"></script>
+    <script type='text/javascript' src='../assets/cms/assets/blog_assets/js/SmoothScroll.js'></script>
+	<script type='text/javascript' src='../assets/cms/assets/blog_assets/js/jquery.waitforimages.js'></script>
+    <script type='text/javascript' src='../assets/cms/assets/blog_assets/js/isotope.pkgd.min.js'></script>
+    <script type='text/javascript' src='../assets/cms/assets/cms/assets/blog_assets/js/lightbox.min.js'></script>
+    <script type='text/javascript' src='../assets/cms/assets/blog_assets/FlexSlider/jquery.flexslider-min.js'></script>
+    <script type='text/javascript' src='../assets/cms/assets/blog_assets/js/imagesloaded.js'></script>
+    <script type='text/javascript' src='../assets/cms/assets/blog_assets/js/custom.js'></script>
+    <script type='text/javascript' src='../assets/cms/assets/blog_assets/js/gmap3.min.js'></script>
     <!--Footer-->
   </body>
 

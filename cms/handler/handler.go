@@ -45,7 +45,7 @@ func New(decoder *schema.Decoder, sess *sessions.CookieStore, tc tpc.CategorySer
 	r.HandleFunc("/blog/store", h.BlogStore)
 	r.HandleFunc("/blog/{id:[0-9]+}/update", h.BlogUpdate)
 	r.HandleFunc("/blog/list", h.BlogList)
-	r.HandleFunc("/blog/{id:[0-9]+}/single", h.BlogSingle)
+	r.HandleFunc("/blog/{id:[0-9]+}", h.BlogSingle)
 	r.HandleFunc("/blog/{id:[0-9]+}/delete", h.BlogDelete)
 	r.HandleFunc("/blog/{id:[0-9]+}/edit", h.BlogEdit)
 
