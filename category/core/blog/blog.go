@@ -4,7 +4,7 @@ import (
 	"blog/category/storage"
 	"blog/category/storage/postgres"
 	"context"
-	"fmt"
+	
 )
 
 type CoreSve struct {
@@ -32,7 +32,7 @@ func (cs CoreSve) GetBlog(ctx context.Context,id int64)  (storage.Blog, error) {
 
 func (cs CoreSve) UpdateBlog(ctx context.Context, c storage.Blog) error{
 
-	fmt.Println(c)
+	//fmt.Println(c)
 	return cs.store.UpdateBlog(ctx, c)
 }
 
