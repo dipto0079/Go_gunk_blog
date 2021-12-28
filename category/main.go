@@ -12,13 +12,21 @@ import (
 	"google.golang.org/grpc/reflection"
 
 	tc "blog/category/core/category"
+
 	tb "blog/category/core/blog"
+
+	us "blog/category/core/user"
+
 	tpc "blog/gunk/v1/category"
+
 	tpb "blog/gunk/v1/blog"
+
+	tpu "blog/gunk/v1/user"
 
 	"blog/category/storage/postgres"
 	
 	"blog/category/services/category"
+	"blog/category/services/user"
 	"blog/category/services/blog"
 	
 )
@@ -47,10 +55,15 @@ func main() {
 
 	bc := tb.NewCoreSve(store)
 
+	usr := us.NewCoreSve(store)
+
+	u:=user.NewUserServer(usr)
+
 	s := category.NewCategoryServer(cs)
 
 	b := blog.NewCategoryServer(bc)
 
+	tpu.RegisterUserRegServiceServer(grpcServer,u)
 
 	tpc.RegisterCategoryServiceServer(grpcServer, s)
 

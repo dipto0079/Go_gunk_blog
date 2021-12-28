@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS blogs(
     CONSTRAINT fk_category
       FOREIGN KEY(cat_id) 
 	  REFERENCES categories(id)
-	  ON DELETE CONSTRAINT NULL
+	  ON DELETE CASCADE
 );
 -- +goose StatementEnd
 
