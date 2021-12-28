@@ -19,6 +19,7 @@ type Svc struct {
 	core blogCoreStore
 }
 
+
 func NewCategoryServer(b blogCoreStore) *Svc {
 	return &Svc{
 		core: b,

@@ -3,7 +3,7 @@
 CREATE TABLE IF NOT EXISTS blogs(
     id SERIAL NOT NULL,
     cat_id INTEGER NOT NULL,
-    title TEXT NOT NULL,
+    title TEXT NOT NULL UNIQUE,
     description TEXT NOT NULL,
     image TEXT NOT NULL,
 
@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS blogs(
     CONSTRAINT fk_category
       FOREIGN KEY(cat_id) 
 	  REFERENCES categories(id)
-	  ON DELETE SET NULL
+	  ON DELETE CONSTRAINT NULL
 );
 -- +goose StatementEnd
 

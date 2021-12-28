@@ -3,7 +3,7 @@ package postgres
 import (
 	"blog/category/storage"
 	"context"
-	"log"
+	//"log"
 	"sort"
 	"testing"
 
@@ -38,7 +38,7 @@ func TestCreateCategory(t *testing.T) {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := s.Create_sto(context.Background(), tt.in)
-			log.Printf("%#v", got)
+			//log.Printf("%#v", got)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Storage.Create() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -77,7 +77,7 @@ func TestGetCategory(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 
 			category, err := s.Get_sto(context.Background(), tt.in)
-			log.Printf("%#v", category)
+			//log.Printf("%#v", category)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Storage.Get() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -115,7 +115,7 @@ func TestAllDataCategory(t *testing.T) {
 		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
 			gotList, err := s.Get_all_Data(context.Background())
-			log.Printf("======???========== %#v", gotList)
+			//log.Printf("======???========== %#v", gotList)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Storage.Get() error = %v, wantErr %v", err, tt.wantErr)
 				return
